@@ -2,7 +2,6 @@ import streamlit as st
 import joblib
 from engine import transcribe
 from actions import execute_command
-from pydub import AudioSegment  # New import for format conversion
 
 # 1. Load your models
 @st.cache_resource
@@ -22,14 +21,14 @@ audio_value = st.audio_input("Record a voice command")
 # 4. Processing Logic
 if audio_value:
     with st.status("Processing...", expanded=True) as status:
-        st.write("Converting audio...")
+        st.write("Saving audio...")
         
-        # Load the audio from the uploaded buffer
-        audio_segment = AudioSegment.from_file(audio_value)
-        # Export as a standardized WAV file
-        audio_segment.export("temp_audio.wav", format="wav")
+        # Save the audio data directly from the buffer
+        with open("temp_audio.wav", "wb") as f:
+            f.write(audio_value.read())
         
         st.write("Transcribing...")
+        # engine.py will now handle the file directly
         user_text = transcribe("temp_audio.wav")
         st.info(f"You said: {user_text}")
         
