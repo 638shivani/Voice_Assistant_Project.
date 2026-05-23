@@ -23,7 +23,7 @@ st.write("Click 'Start Recording' and speak your command.")
 audio = mic_recorder(
     start_prompt="Start Recording",
     stop_prompt="Stop Recording",
-    just_once=True,
+    just_once=False,
     use_container_width=True
 )
 
